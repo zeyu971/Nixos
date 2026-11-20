@@ -1,0 +1,2 @@
+# Nixos
+apprendre nixos
