@@ -6,10 +6,15 @@
     ./configuration.nix
   ];
 
-  # Démarrage BIOS et UEFI, pour fonctionner dans tous les cas
   isoImage.makeEfiBootable = true;
   isoImage.makeUsbBootable = true;
 
-  # Améliore l'intégration dans VirtualBox (souris, écran)
+  # zstd se décompresse beaucoup plus vite que xz
+  isoImage.squashfsCompression = "zstd -Xcompression-level 6";
+
+  # Copie tout le système en RAM au démarrage : plus aucun accès au CD ensuite,
+  # comme Alpine diskless. À activer seulement si l'ISO est petite (voir plus bas).
+  boot.kernelParams = [ "copytoram" ];
+
   virtualisation.virtualbox.guest.enable = true;
 }
